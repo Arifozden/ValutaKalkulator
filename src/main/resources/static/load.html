@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<p>Last valutaregister på server</p>
+<button id="load">Last</button>
+<a href="index.html"><p>Tilbake til Valuta Kalkulator</p></a>
+<script type="application/javascript">
+  $(function (){
+    $("#load").click(function (){
+      $.post("/load",function (data,status){
+        console.log(status);
+        if(status=="success"){
+          alert("Valutaer er lastet")
+        } else {
+          alert("Valutaer er ikke lastet")
+        }
+    })
+    })
+  })
+</script>
+</body>
+</html>

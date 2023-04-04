@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>KlientTjener Oppgave 2</title>
+</head>
+<body>
+<h1>Oppgave 2</h1>
+<a href="load.html">Last valutaregister</a>
+<div id="currencySelect"></div>
+<br>
+<label for="amount">Skriv inn et beløp</label>
+<input id="amount">
+<br>
+<button id="convert">Trykk her</button>
+<div id="result2"></div>
+<script type="application/javascript">
+  $(function (){
+    $.post("/getCurrencies", function (data){
+      let ut="<label for='currency'>Skriv inn en valuta</label><select id='currency'>"
+      for(let currency of data){
+        ut+="<option value='"+currency.currency+"'>"+currency.currency+"</option>"
+      }
+      ut+="</select>"
+      $("#currencySelect").html(ut)
+    })
+          })
+
+  $("#convert").click(function (){
+    let currencyValue = {
+      currency : $("#currency").val(),
+      amount:$("#amount").val()
+    }
+    if (currencyValue.amount>0){
+      $.post("/calculateValue",currencyValue,function (data){
+        if(data!==0){
+          let ut="<p>"+currencyValue.amount+" "+currencyValue.currency+" er "+data+ " NOK </p>"
+          $("#result2").html(ut)
+        }
+        else{
+          $("#result2").html("Det skjedde noe feil på serveren")
+        }
+      })
+    }
+  })
+</script>
+</body>
+</html>
